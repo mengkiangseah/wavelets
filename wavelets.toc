@@ -1,0 +1,5 @@
+\select@language {english}
+\contentsline {chapter}{1. Random Signals \& Stochastic Processes}{1}
+\contentsline {section}{\numberline {1.1}Statistical Estimation}{1}
+\contentsline {subsection}{\numberline {1.1.1}Uniform Random Variable}{1}
+\contentsline {chapter}{7. References}{2}

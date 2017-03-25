@@ -1,0 +1,209 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{upgreek}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[font=footnotesize,labelfont=bf]{caption}
+\usepackage[font=footnotesize,labelfont=bf]{subcaption}
+\usepackage{lmodern}
+\usepackage[left=1.5cm,right=1.5cm,top=1.5cm,bottom=1.5cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{eurosym}
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+%\usepackage{citesort}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{framed}
+\usepackage{ulem}
+\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
+\usepackage{wrapfig}
+\usepackage{url}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
+\makeatother
+
+%Stuff I have added
+
+%Reformat some spacing and sizing around titles
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+{\normalfont\Large\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\LARGE}
+\titlespacing{\chapter}{0pt}{0pt}{12pt}
+
+%New command to get rid of the "Chapter X" at the beginning of every chapter while maintaining
+%a chapter count for the table of contents
+%1st input is the counter for the chapter, second is the chapter name
+\newcommand{\mychapter}[2]
+{
+    \setcounter{chapter}{#1}
+    \setcounter{section}{0}
+    \chapter*{#2}
+    \addcontentsline{toc}{chapter}{#2}
+}
+
+\usepackage{float}
+
+\usepackage{enumitem}
+
+%Get rid of auto indent for paragraphs
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+%End of stuff I have added
+
+\renewcommand{\arraycolsep}{2pt}
+\newcommand{\eq}{Equation~}
+\newcommand{\eqs}{Equations~}
+\newcommand{\fig}{Figure~}
+\newcommand{\figs}{Figures~}
+\newcommand{\tab}{Table~}
+\newcommand{\tabs}{Tables~}
+\newcommand{\kwm}{k-\omega^2m}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{3}
+
+\begin{document}
+\begin{titlepage}
+\vspace*{\fill}
+
+\begin{center}
+
+\Huge{\textbf{EE4-45:}\\ Wavelets And Applications}\\
+\vspace{1cm}
+\Huge{Coursework}
+
+\end{center}
+
+\centering{
+\begin{tabular}{rl}
+\\
+{\bf Name:} & {Meng Kiang SEAH}
+\\
+{\bf CID:} & {00699092}
+\\
+{\bf Date:} & {27\textsuperscript{th} March 2017}
+
+\end{tabular}}
+\vspace*{\fill}
+
+\end{titlepage}
+
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+
+\mychapter{1}{1. Random Signals \& Stochastic Processes}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section{Statistical Estimation}\label{sec:oneone}
+
+\subsection{Uniform Random Variable}\label{sec:urv}
+The uniform random variable (RV) is $X \sim U(0, 1)$, and has a probability density function (PDF):
+
+\[ f_{X}(x) = \left\{
+	\begin{array}{l l}
+		1 & \quad 0 \leq t \leq 1\\
+		0 & \quad \text{otherwise}\\
+	\end{array}
+\right.\]
+
+The expected value of $X$, or \textit{theoretical mean} ($m$) and the standard deviation ($\sigma$) are given by Equation \ref{eq:rvunimu} and \ref{eq:rvunisigma} respectively \cite{IEEEexample:shellCTANpage}.
+
+\resizebox{\textwidth}{!}{%
+  \begin{tabular}{ lll }
+    \parbox{0.3\textwidth}{\begin{align}
+      	m &= \mathbb{E}[X]\notag\\
+      	&= \int_{-\infty}^{+\infty} xf_{X}(x) \,dx \notag\\
+      	&= \int_{0}^{1}x \,dx \notag\\
+      	&= \left[\frac{x^2}{2}\right]_{0}^{1}\notag\\
+      	&= \frac{1}{2}\label{eq:rvunimu}
+    \end{align}}
+    &
+    \parbox{0.3\textwidth}{\begin{align*}
+    \sigma &= \sqrt{E[X^2] - (E[X])^2}\\
+  	E[X^2] &= \int_{-\infty}^{+\infty} x^2 f_{X}(x) \,dx\\
+  	&= \int_{0}^{1}x^2 \,dx\\
+    &= \left[\frac{x^3}{3}\right]_{0}^{1}\\
+  	&= \frac{1}{3}
+    \end{align*}}
+    &
+    \parbox{0.4\textwidth}{\begin{align}
+    (E[X])^2 &= \left(\frac{1}{2}\right)^2\notag\\
+  	&=\frac{1}{4}\notag\\
+  	\sqrt{E[X^2] - (E[X])^2} &= \sqrt{\frac{1}{3} - \frac{1}{4}}\notag\\
+  	&=\sqrt{\frac{1}{12}}\notag\\
+  	&\approx 0.2887 \label{eq:rvunisigma}
+    \end{align}}
+  \end{tabular}
+  }
+
+% \begin{wrapfigure}{r}{0.4\textwidth}
+%       \begin{tabular}{|l|l|}
+%         \hline
+%         \textbf{Sample Mean ($\hat{m}$)} & 0.4982\\ \hline
+%         \textbf{Sample Standard Deviation ($\hat{\sigma}$)} & 0.2862 \\ \hline
+%     \end{tabular}
+% \end{wrapfigure}
+
+Using the \mcode{rand}.
+
+\newpage
+\mychapter{7}{7. References}
+\begingroup
+   \def\chapter*#1{}
+\bibliographystyle{biblio}
+\bibliography{wavelets}
+\endgroup
+
+% \begin{figure}[H]
+% 	\captionsetup[subfigure]{position=b}
+%         \centering
+%         \begin{subfigure}{0.8\textwidth}
+%                 \includegraphics[width=\textwidth]{a1_x1_q123mean.eps}
+%                 \caption{Graph of $\hat{m}$ values.}
+%                 \label{fig:a1_x1_q123mean}
+%         \end{subfigure}
+%         \\
+%         \begin{subfigure}{0.8\textwidth}
+%                 \includegraphics[width=\textwidth]{a1_x1_q123std.eps}
+%                 \caption{Graph of $\hat{\sigma}$ values.}
+%                 \label{fig:a1_x1_q123std}
+%         \end{subfigure}
+% 	\caption{$\hat{m}$ and $\hat{\sigma}$ across 10 realisations of 1000 samples. }
+% 	\label{fig:a1_x1_q123}
+% \end{figure}
+%
+% \begin{table}[h]
+% \centering
+% \resizebox{\textwidth}{!}{%
+% \begin{tabular}{|c|r|r|r|r|r|r|r|r|r|r|}
+% \hline
+% \textbf{Realisation} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8}  & \textbf{9} & \textbf{10} \\ \hline
+% $\hat{m}$                           & 0.5040    & 0.5128    & 0.5113     & 0.4873    & 0.4902    & 0.5138    & 0.5072    & 0.49203     & 0.5028     & 0.5048      \\ \hline
+% $\hat{\sigma}$                          & 0.2864    & 0.2859    & 0.2917    & 0.2880    & 0.2820    & 0.2962     & 0.2887    & 0.2892     & 0.2928    & 0.2913     \\ \hline
+% $B_m$                          & -0.0040 & -0.0128  & -0.0113  & 0.0127   & 0.0098  & -0.0138   & -0.0072 & 0.0080   & -0.0028 & -0.0048  \\ \hline
+% $B_\sigma$                          & 0.0023   & 0.0028  & -0.0030 & 0.0007 & 0.0067  & -0.0075 & 0.0001 & -0.0005 & -0.0041 & -0.0026  \\ \hline
+% \end{tabular}
+% }
+% \caption{Sample mean and standard deviation, with their biases from 10 realisations of 1000 samples each.}
+% \label{tab:a1_x1_q123}
+% \end{table}
+%
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.85\textwidth]{a1_x1_q4a.eps}
+%     \caption{Histogram of $x$ values, with theoretical PDF superimposed.}
+%     \label{fig:a1_x1_q4a}
+% \end{figure}
+
+% \lstinputlisting{pgm.m}
+
+\end{document}
