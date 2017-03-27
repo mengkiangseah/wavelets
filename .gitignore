@@ -24,5 +24,14 @@ octave-workspace
 # Outputs from LaTeX
 *.toc
 
-# Report
-wavelets.pdf
+# Report and pictures
+*.pdf
+
+#Random test
+test.m
+
+#Dragotti's files
+wave_mat_files/
+
+#Pictures
+*.eps
