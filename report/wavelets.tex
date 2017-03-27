@@ -171,8 +171,8 @@ At first glance, it would seem that the reconstruction works even up to $m=4$ sp
 \end{table}
 
 
-% \mychapter{2}{Exercise 2}
-% Left for later.
+\mychapter{2}{Exercise 2}
+Something.
 
 \mychapter{3}{Exercise 3}
 Following exactly the equations set up in the question sheet \cite{question}, the function \mcode{annihilatingFilter} was written. This was then applied to the \mcode{tau} variable obtained from the \texttt{tau.mat} file given to us. The results are as found in Table \ref{tbl:ex3_1}. The $h[n]$ values are found in Table \ref{tbl:ex3_2}.
@@ -292,7 +292,60 @@ While reproducing all the coefficients and signals and various outputs are not s
 \end{figure}
 
 \mychapter{7}{Exercise 7}
-Something.
+Using the moments from $N = 5$, the various moments with noise can be processed through the annihilating filter. But there can be improvements to the annihilating filter. The total least-squares (TLS) approach involves computing $h[n]$ differently by using Singular Value Decomposition, or SVD. A larger Toeplitz matrix, $S$ is broken down into the form $U\Lambda V^T$, where the last column of $V$ is $h[n]$. Then, $t_k$ and $a_k$ are found in the same way.
+\\\\
+In addition to that, the $S$ matrix can be improved before TLS through the Cadzow method. This involves taking the SVD again, but this time, $U\Lambda V^T$ is modified by keeping only the $K$ largest eigenvalues in $\Lambda$. This becomes $\Lambda'$, from which $S$ is reconstituted. This is repeated as many times as needed, before TLS, and the normal methods are used.
+\\\\
+There were 4 different $N$ values explored. In addition, the moment for each one was exposed to 5 different noise variances. Finally, the three methods of filtering were used: normal annihilation filter, TLS, and TLS with Cadzow. All of these are shown in the Figures \ref{fig:ex7_5} to \ref{fig:ex7_tlscad_8}. Only Figure \ref{fig:ex7_5} is included in the main body, to avoid clutter. The rest can be found in the Appendix.
+\\\\
+There are a number of observations here. For the normal annihilation filter, the result was always two Diracs detected. However, with added noise, the time position started to stray from the correct value. Additionally, there was also a noticeable decrease in the amplitude detected. This is expected, as the error from the noise must manifest itself in some way. What is interesting is that increasing $N$ did not seem to improve the performance directly, and appeared to cause attenuation to the later Dirac.
+\\\\
+As for the TLS results, it seemed more resistant to noise, until $\sigma^2 = 10$, where an entire Dirac was lost, and the single one was not in the right place, nor the right amplitude. Increasing $N$ meant greater attenuation, although that did allow the second Dirac to be detected at higher noise levels, despite the wrong location and amplitude. Adding the Cadzow improvement did not seem to do much, but it was only iterated through twice. Due to time and space constraints, this effect was not investigated, but could offer an avenue for further exploration.
+
+\begin{figure}[!ht]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/originalDirac.eps}
+        \caption{Actual Diracs.}
+        \label{fig:ex7_5_0}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_5_1.eps}
+        \caption{$\sigma^2 = 0.001$.}
+        \label{fig:ex7_5_1}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_5_2.eps}
+        \caption{$\sigma^2 = 0.01$.}
+        \label{fig:ex7_5_2}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_5_3.eps}
+        \caption{$\sigma^2 = 0.1$.}
+        \label{fig:ex7_5_3}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_5_4.eps}
+        \caption{$\sigma^2 = 1$.}
+        \label{fig:ex7_5_4}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_5_5.eps}
+        \caption{$\sigma^2 = 10$.}
+        \label{fig:ex7_5_5}
+    \end{subfigure}
+
+    \caption{Estimate of Diracs with sampling when $N = 5$, with normal annihilation filter.}
+    \label{fig:ex7_5}
+\end{figure}
+
+
 
 \mychapter{8}{Exercise 8}
 Something.
@@ -325,15 +378,15 @@ Something.
 
 \mychapter{10}{Appendix}
 \renewcommand\thesection{\Alph{section}}
-\section{Exercise 1}
+\section{Exercise 1 Code}
 \lstinputlisting{../ex1.m}
 \newpage
 
-% \section{Exercise 2}
-% \lstinputlisting{../ex2.m}
-% \newpage
+\section{Exercise 2 Code}
+\lstinputlisting{../ex2.m}
+\newpage
 
-\section{Exercise 3}
+\section{Exercise 3 Code}
 \subsection{Annihilating Filter Function}
 \lstinputlisting{../annihilatingFilter.m}
 \newpage
@@ -342,15 +395,15 @@ Something.
 \lstinputlisting{../ex3.m}
 \newpage
 
-\section{Exercise 4}
+\section{Exercise 4 Code}
 \lstinputlisting{../ex4.m}
 \newpage
 
-\section{Exercise 5}
+\section{Exercise 5 Code}
 \lstinputlisting{../ex5.m}
 \newpage
 
-\section{Exercise 6}
+\section{Exercise 6 Code}
 \subsection{Moment Generating Function}
 \lstinputlisting{../daubechieMoments.m}
 \newpage
@@ -378,6 +431,508 @@ Something.
     \includegraphics[width=\textwidth]{../pictures/ex6_moments8.eps}
     \caption{Noisy moments and kernel for $N = 8$.}
 \end{figure}
+
+\section{Exercise 7 Code and Plots}
+\subsection{Annihilation Function with TLS}
+\lstinputlisting{../annihilatingFilterTLS.m}
+\newpage
+
+\subsection{Annihilation Function with TLS and Cadzow}
+\lstinputlisting{../annihilatingFilterTLSCadzow.m}
+\newpage
+
+\subsection{Script using Normal Annihilation Filter}
+\lstinputlisting{../ex7_none.m}
+\newpage
+
+\subsection{Script using Annihilation Filter with TLS}
+\lstinputlisting{../ex7_tls.m}
+\newpage
+
+\subsection{Script using Annihilation Filter with TLS and Cadzow}
+\lstinputlisting{../ex7_tlscad.m}
+\newpage
+
+\subsection{Plots of Predicted Dirac Locations}
+\begin{figure}[!ht]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/originalDirac.eps}
+        \caption{Actual Diracs.}
+        \label{fig:ex7_6_0}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_6_1.eps}
+        \caption{$\sigma^2 = 0.001$.}
+        \label{fig:ex7_6_1}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_6_2.eps}
+        \caption{$\sigma^2 = 0.01$.}
+        \label{fig:ex7_6_2}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_6_3.eps}
+        \caption{$\sigma^2 = 0.1$.}
+        \label{fig:ex7_6_3}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_6_4.eps}
+        \caption{$\sigma^2 = 1$.}
+        \label{fig:ex7_6_4}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_6_5.eps}
+        \caption{$\sigma^2 = 10$.}
+        \label{fig:ex7_6_5}
+    \end{subfigure}
+
+    \caption{Estimate of Diracs with sampling when $N = 6$, with normal annihilation filter.}
+    \label{fig:ex7_6}
+\end{figure}
+
+\begin{figure}[H]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/originalDirac.eps}
+        \caption{Actual Diracs.}
+        \label{fig:ex7_7_0}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_7_1.eps}
+        \caption{$\sigma^2 = 0.001$.}
+        \label{fig:ex7_7_1}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_7_2.eps}
+        \caption{$\sigma^2 = 0.01$.}
+        \label{fig:ex7_7_2}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_7_3.eps}
+        \caption{$\sigma^2 = 0.1$.}
+        \label{fig:ex7_7_3}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_7_4.eps}
+        \caption{$\sigma^2 = 1$.}
+        \label{fig:ex7_7_4}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_7_5.eps}
+        \caption{$\sigma^2 = 10$.}
+        \label{fig:ex7_7_5}
+    \end{subfigure}
+
+    \caption{Estimate of Diracs with sampling when $N = 7$, with normal annihilation filter.}
+    \label{fig:ex7_7}
+\end{figure}
+
+\begin{figure}[H]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/originalDirac.eps}
+        \caption{Actual Diracs.}
+        \label{fig:ex7_8_0}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_8_1.eps}
+        \caption{$\sigma^2 = 0.001$.}
+        \label{fig:ex7_8_1}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_8_2.eps}
+        \caption{$\sigma^2 = 0.01$.}
+        \label{fig:ex7_8_2}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_8_3.eps}
+        \caption{$\sigma^2 = 0.1$.}
+        \label{fig:ex7_8_3}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_8_4.eps}
+        \caption{$\sigma^2 = 1$.}
+        \label{fig:ex7_8_4}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_8_5.eps}
+        \caption{$\sigma^2 = 10$.}
+        \label{fig:ex7_8_5}
+    \end{subfigure}
+
+    \caption{Estimate of Diracs with sampling when $N = 8$, with normal annihilation filter.}
+    \label{fig:ex7_8}
+\end{figure}
+
+%%%%%%%%% TLS
+
+\begin{figure}[H]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/originalDirac.eps}
+        \caption{Actual Diracs.}
+        \label{fig:ex7_tls_5_0}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_5_1.eps}
+        \caption{$\sigma^2 = 0.001$.}
+        \label{fig:ex7_tls_5_1}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_5_2.eps}
+        \caption{$\sigma^2 = 0.01$.}
+        \label{fig:ex7_tls_5_2}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_5_3.eps}
+        \caption{$\sigma^2 = 0.1$.}
+        \label{fig:ex7_tls_5_3}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_5_4.eps}
+        \caption{$\sigma^2 = 1$.}
+        \label{fig:ex7_tls_5_4}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_5_5.eps}
+        \caption{$\sigma^2 = 10$.}
+        \label{fig:ex7_tls_5_5}
+    \end{subfigure}
+
+    \caption{Estimate of Diracs with sampling when $N = 5$, with annihilation filter and TLS.}
+    \label{fig:ex7_tls_5}
+\end{figure}
+
+\begin{figure}[H]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/originalDirac.eps}
+        \caption{Actual Diracs.}
+        \label{fig:ex7_tls_6_0}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_6_1.eps}
+        \caption{$\sigma^2 = 0.001$.}
+        \label{fig:ex7_tls_6_1}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_6_2.eps}
+        \caption{$\sigma^2 = 0.01$.}
+        \label{fig:ex7_tls_6_2}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_6_3.eps}
+        \caption{$\sigma^2 = 0.1$.}
+        \label{fig:ex7_tls_6_3}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_6_4.eps}
+        \caption{$\sigma^2 = 1$.}
+        \label{fig:ex7_tls_6_4}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_6_5.eps}
+        \caption{$\sigma^2 = 10$.}
+        \label{fig:ex7_tls_6_5}
+    \end{subfigure}
+
+    \caption{Estimate of Diracs with sampling when $N = 6$, with annihilation filter and TLS.}
+    \label{fig:ex7_tls_6}
+\end{figure}
+
+\begin{figure}[H]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/originalDirac.eps}
+        \caption{Actual Diracs.}
+        \label{fig:ex7_tls_7_0}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_7_1.eps}
+        \caption{$\sigma^2 = 0.001$.}
+        \label{fig:ex7_tls_7_1}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_7_2.eps}
+        \caption{$\sigma^2 = 0.01$.}
+        \label{fig:ex7_tls_7_2}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_7_3.eps}
+        \caption{$\sigma^2 = 0.1$.}
+        \label{fig:ex7_tls_7_3}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_7_4.eps}
+        \caption{$\sigma^2 = 1$.}
+        \label{fig:ex7_tls_7_4}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_7_5.eps}
+        \caption{$\sigma^2 = 10$.}
+        \label{fig:ex7_tls_7_5}
+    \end{subfigure}
+
+    \caption{Estimate of Diracs with sampling when $N = 7$, with annihilation filter and TLS.}
+    \label{fig:ex7_tls_7}
+\end{figure}
+
+\begin{figure}[H]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/originalDirac.eps}
+        \caption{Actual Diracs.}
+        \label{fig:ex7_tls_8_0}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_8_1.eps}
+        \caption{$\sigma^2 = 0.001$.}
+        \label{fig:ex7_tls_8_1}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_8_2.eps}
+        \caption{$\sigma^2 = 0.01$.}
+        \label{fig:ex7_tls_8_2}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_8_3.eps}
+        \caption{$\sigma^2 = 0.1$.}
+        \label{fig:ex7_tls_8_3}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_8_4.eps}
+        \caption{$\sigma^2 = 1$.}
+        \label{fig:ex7_tls_8_4}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tls_8_5.eps}
+        \caption{$\sigma^2 = 10$.}
+        \label{fig:ex7_tls_8_5}
+    \end{subfigure}
+
+    \caption{Estimate of Diracs with sampling when $N = 8$, with annihilation filter and TLS.}
+    \label{fig:ex7_tls_8}
+\end{figure}
+
+%%%%%%%%% TLS CAD
+
+\begin{figure}[H]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/originalDirac.eps}
+        \caption{Actual Diracs.}
+        \label{fig:ex7_tlscad_5_0}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_5_1.eps}
+        \caption{$\sigma^2 = 0.001$.}
+        \label{fig:ex7_tlscad_5_1}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_5_2.eps}
+        \caption{$\sigma^2 = 0.01$.}
+        \label{fig:ex7_tlscad_5_2}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_5_3.eps}
+        \caption{$\sigma^2 = 0.1$.}
+        \label{fig:ex7_tlscad_5_3}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_5_4.eps}
+        \caption{$\sigma^2 = 1$.}
+        \label{fig:ex7_tlscad_5_4}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_5_5.eps}
+        \caption{$\sigma^2 = 10$.}
+        \label{fig:ex7_tlscad_5_5}
+    \end{subfigure}
+
+    \caption{Estimate of Diracs with sampling when $N = 5$, with annihilation filter, TLS, and Cadzow.}
+    \label{fig:ex7_tlscad_5}
+\end{figure}
+
+\begin{figure}[H]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/originalDirac.eps}
+        \caption{Actual Diracs.}
+        \label{fig:ex7_tlscad_6_0}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_6_1.eps}
+        \caption{$\sigma^2 = 0.001$.}
+        \label{fig:ex7_tlscad_6_1}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_6_2.eps}
+        \caption{$\sigma^2 = 0.01$.}
+        \label{fig:ex7_tlscad_6_2}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_6_3.eps}
+        \caption{$\sigma^2 = 0.1$.}
+        \label{fig:ex7_tlscad_6_3}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_6_4.eps}
+        \caption{$\sigma^2 = 1$.}
+        \label{fig:ex7_tlscad_6_4}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_6_5.eps}
+        \caption{$\sigma^2 = 10$.}
+        \label{fig:ex7_tlscad_6_5}
+    \end{subfigure}
+
+    \caption{Estimate of Diracs with sampling when $N = 6$, with annihilation filter, TLS, and Cadzow.}
+    \label{fig:ex7_tlscad_6}
+\end{figure}
+
+\begin{figure}[H]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/originalDirac.eps}
+        \caption{Actual Diracs.}
+        \label{fig:ex7_tlscad_7_0}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_7_1.eps}
+        \caption{$\sigma^2 = 0.001$.}
+        \label{fig:ex7_tlscad_7_1}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_7_2.eps}
+        \caption{$\sigma^2 = 0.01$.}
+        \label{fig:ex7_tlscad_7_2}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_7_3.eps}
+        \caption{$\sigma^2 = 0.1$.}
+        \label{fig:ex7_tlscad_7_3}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_7_4.eps}
+        \caption{$\sigma^2 = 1$.}
+        \label{fig:ex7_tlscad_7_4}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_7_5.eps}
+        \caption{$\sigma^2 = 10$.}
+        \label{fig:ex7_tlscad_7_5}
+    \end{subfigure}
+
+    \caption{Estimate of Diracs with sampling when $N = 7$, with annihilation filter, TLS, and Cadzow.}
+    \label{fig:ex7_tlscad_7}
+\end{figure}
+
+\begin{figure}[H]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/originalDirac.eps}
+        \caption{Actual Diracs.}
+        \label{fig:ex7_tlscad_8_0}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_8_1.eps}
+        \caption{$\sigma^2 = 0.001$.}
+        \label{fig:ex7_tlscad_8_1}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_8_2.eps}
+        \caption{$\sigma^2 = 0.01$.}
+        \label{fig:ex7_tlscad_8_2}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_8_3.eps}
+        \caption{$\sigma^2 = 0.1$.}
+        \label{fig:ex7_tlscad_8_3}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_8_4.eps}
+        \caption{$\sigma^2 = 1$.}
+        \label{fig:ex7_tlscad_8_4}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../pictures/ex7_tlscad_8_5.eps}
+        \caption{$\sigma^2 = 10$.}
+        \label{fig:ex7_tlscad_8_5}
+    \end{subfigure}
+
+    \caption{Estimate of Diracs with sampling when $N = 8$, with annihilation filter, TLS, and Cadzow.}
+    \label{fig:ex7_tlscad_8}
+\end{figure}
+
+\newpage
+\section{Exercise 8 Code}
 
 
 \end{document}
