@@ -174,9 +174,33 @@ Error   & 0.2184     & 0.0048     & 0.0050     & 0.0255     & 233.5417\\ \hline
 
 
 \mychapter{2}{Exercise 2}
-Something.
+Left for later.
+
 \mychapter{3}{Exercise 3}
-Something.
+Following exactly the equations set up in the question sheet \cite{question}, the function \mcode{annihilatingFilter} was written. This was then applied to the \mcode{tau} variable obtained from the \texttt{tau.mat} file given to us. The results are as found in Table \ref{tbl:ex3_1}. The $h[n]$ values are found in Table \ref{tbl:ex3_2}
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+$k$     & $t_k$     & $a_k$ \\ \hline
+0       & 15.3750   & 0.7800\\ \hline
+1       & 14.2500   & 1.3200\\ \hline
+\end{tabular}
+\caption{Results of the annihilating filter applied to \texttt{tau.mat}.}
+\label{tbl:ex3_1}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+$h[0]$     & $h[1]$     & $h[2]$ \\ \hline
+1.0000       & -29.6250  & 219.0937\\ \hline
+\end{tabular}
+\caption{The annihilating filter coefficients.}
+\label{tbl:ex3_2}
+\end{table}
 
 \mychapter{4}{Exercise 4}
 Something.
@@ -237,7 +261,6 @@ Something.
 %     \end{tabular}
 % \end{wrapfigure}
 
-Using the \mcode{rand}.
 
 \newpage
 \mychapter{9}{References}
@@ -248,8 +271,20 @@ Using the \mcode{rand}.
 \endgroup
 
 \mychapter{10}{Appendix}
-\section*{Exercise 1}
+\renewcommand\thesection{\Alph{section}}
+\section{Exercise 1}
 \lstinputlisting{ex1.m}
+\newpage
+
+\section{Exercise 2}
+\lstinputlisting{ex2.m}
+
+\section{Exercise 3}
+\subsection{Annihilating Filter Function}
+\lstinputlisting{annihilatingFilter.m}
+
+\subsection{Actual Exercise Script}
+\lstinputlisting{ex3.m}
 
 
 
