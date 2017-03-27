@@ -170,6 +170,10 @@ At first glance, it would seem that the reconstruction works even up to $m=4$ sp
     \label{tbl:ex1}
 \end{table}
 
+\mychapter{2}{Exercise 2}
+To reproduce polynomials of maximum degree 3, the notes \cite{notes} on Page 68 tell us that one would need a B-spline of degree 3, as an $N$-order B-spline can reproduce polynomials of maximum degree $N$. Unfortunately, the complexity comes in the function is not orthonogoal, meaning its scaling function $\varphi(t)$ is not equal to $\tilde{\varphi}(t)$. However, once calculation of the dual basis is done, the same thing as in Exercise 1 would take place. The function would be shifted for all $n$ that is appropriate, and the scaled dot-product taken to obtain the coefficents $c_{n,m}$ with the various $t^m$. From there, the reproduction of polynomials can be noted, and results would not doubt be very similar to Exercise 1.  
+
+
 \mychapter{3}{Exercise 3}
 Following exactly the equations set up in the question sheet \cite{question}, the function \mcode{annihilatingFilter} was written. This was then applied to the \mcode{tau} variable obtained from the \texttt{tau.mat} file given to us. The results are as found in Table \ref{tbl:ex3_1}. The $h[n]$ values are found in Table \ref{tbl:ex3_2}.
 
