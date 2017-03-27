@@ -48,6 +48,7 @@ end
 % Multiplication means each row times column, summed, i.e. dot product!
 
 coefficients =  (1/T) * allPhi * tVals;
+save('coefficients.mat', 'coefficients');
 
 %% Sample using allPhi. 
 yn = allPhi * xt;
