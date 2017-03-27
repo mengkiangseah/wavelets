@@ -1,6 +1,7 @@
 %% Preparation
 clear;
 close all;
+clc;
 
 %% Preamble from the start
 % Some constants

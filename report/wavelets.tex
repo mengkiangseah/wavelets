@@ -164,14 +164,14 @@ At first glance, it would seem that the reconstruction works even up to $m=4$ sp
 \end{figure}
 
 \begin{table}[!ht]
-\centering
-\begin{tabular}{|c|r|r|r|r|r|}
-\hline
-$m$     & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4}\\ \hline
-Error   & 0.2184     & 0.0048     & 0.0050     & 0.0255     & 233.5417\\ \hline
-\end{tabular}
-\caption{Absolute value of the reconstruction error.}
-\label{tbl:ex1}
+    \centering
+    \begin{tabular}{|c|r|r|r|r|r|}
+        \hline
+        $m$     & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4}\\ \hline
+        Error   & 0.2184     & 0.0048     & 0.0050     & 0.0255     & 233.5417\\ \hline
+    \end{tabular}
+    \caption{Absolute value of the reconstruction error.}
+    \label{tbl:ex1}
 \end{table}
 
 
@@ -179,36 +179,90 @@ Error   & 0.2184     & 0.0048     & 0.0050     & 0.0255     & 233.5417\\ \hline
 Left for later.
 
 \mychapter{3}{Exercise 3}
-Following exactly the equations set up in the question sheet \cite{question}, the function \mcode{annihilatingFilter} was written. This was then applied to the \mcode{tau} variable obtained from the \texttt{tau.mat} file given to us. The results are as found in Table \ref{tbl:ex3_1}. The $h[n]$ values are found in Table \ref{tbl:ex3_2}
+Following exactly the equations set up in the question sheet \cite{question}, the function \mcode{annihilatingFilter} was written. This was then applied to the \mcode{tau} variable obtained from the \texttt{tau.mat} file given to us. The results are as found in Table \ref{tbl:ex3_1}. The $h[n]$ values are found in Table \ref{tbl:ex3_2}.
 
 \begin{table}[!ht]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-$k$     & $t_k$     & $a_k$ \\ \hline
-0       & 15.3750   & 0.7800\\ \hline
-1       & 14.2500   & 1.3200\\ \hline
-\end{tabular}
-\caption{Results of the annihilating filter applied to \texttt{tau.mat}.}
-\label{tbl:ex3_1}
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        $k$     & $t_k$     & $a_k$ \\ \hline
+        0       & 15.3750   & 0.7800\\ \hline
+        1       & 14.2500   & 1.3200\\ \hline
+    \end{tabular}
+    \caption{Results of the annihilating filter applied to \texttt{tau.mat}.}
+    \label{tbl:ex3_1}
 \end{table}
 
 \begin{table}[!ht]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-$h[0]$     & $h[1]$     & $h[2]$ \\ \hline
-1.0000       & -29.6250  & 219.0937\\ \hline
-\end{tabular}
-\caption{The annihilating filter coefficients.}
-\label{tbl:ex3_2}
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        $h[0]$     & $h[1]$     & $h[2]$ \\ \hline
+        1.0000       & -29.6250  & 219.0937\\ \hline
+    \end{tabular}
+    \caption{The annihilating filter coefficients.}
+    \label{tbl:ex3_2}
 \end{table}
 
 \mychapter{4}{Exercise 4}
-Something.
+
+First, the Dirac stream was created. The value of $K=2$ means that there are two Diracs in the stream. Their location and amplitude are found in Table \ref{tbl:ex4_1}.
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Sample Number} & \textbf{Amplitude} \\ \hline
+        517                    & 6.98 \\ \hline
+        1569                   & 2.67 \\ \hline
+    \end{tabular}
+    \caption{The location of the Diracs and their amplitude.}
+    \label{tbl:ex4_1}
+\end{table}
+
+Then, the signal $x(t)$ was sampled using the same 4th Order Daubechie function as Exercise 1. This is because the notes \cite{notes} on Page 70 state that the $\varphi(t)$ used must be able to reproduce polynomials of maximum degree $N \leq 2K -1$. For $K=2$, this means $N \leq 3$, exactly as Exercise 1. This produced the 26-coefficient vector (as the support of the kernel $L = 26$).
+\\\\
+The coefficients from Exercise 1 were 4 sets of 26 coefficients, corresponding to the orders $m \in [0;3]$. The dot product between each order's coefficients and the sampled coefficients was computed. The resulting values (4) created the $s[m]$ values.
+\\\\
+This was fed into the annihilating filter. The $t_k$ resulting values and $a_k$ values should correspond to the Diracs in the original signal, as shown in Table \ref{tbl:ex4_2}. However, while the amplitude values line up, the time ones do not. This is because they correspond to the value in seconds, and the input values are the sample number, given that 64 samples happen a second. Also, the index in MATLAB versus the equation are different. Multiplying the $t_k$ by 64, and adding one as in Table \ref{tbl:ex4_3} gives the correct values. The original signal and the reconstructed signals are shown in Figure \ref{fig:ex4}.
+
+\begin{table}[!ht]
+    \parbox{.45\linewidth}{
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        $k$     & $t_k$/seconds     & $a_k$ \\ \hline
+        0       & 24.5000   & 2.6700\\ \hline
+        1       & 8.0625   & 6.9800\\ \hline
+    \end{tabular}
+    \caption{Results of the annihilating filter: location and amplitude of Diracs.}
+    \label{tbl:ex4_2}
+    }
+    \hfill
+    \parbox{.45\linewidth}{
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Sample Number} \\ \hline
+        517   \\ \hline
+        1569  \\ \hline
+    \end{tabular}
+    \caption{The sample number location of the reconstructed Diracs.}
+    \label{tbl:ex4_3}
+    }
+\end{table}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=.8\textwidth]{../pictures/ex4.eps}
+    \caption{The original and reconstructed Dirac streams.}
+    \label{fig:ex4}
+\end{figure}
 
 \mychapter{5}{Exercise 5}
 Something.
+
+
 
 \mychapter{6}{Exercise 6}
 Something.
@@ -291,5 +345,8 @@ Something.
 \lstinputlisting{../ex3.m}
 \newpage
 
+\section{Exercise 4}
+\lstinputlisting{../ex4.m}
+\newpage
 
 \end{document}
