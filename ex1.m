@@ -29,7 +29,7 @@ set(findall(gcf,'type','axes'),'fontsize',25)
 set(findall(gcf,'type','text'),'fontSize',25) 
 fig = gcf;
 fig.PaperPositionMode = 'auto';
-print('ex1_1','-depsc','-r0');
+print('pictures/ex1_1','-depsc','-r0');
 
 %% Some constants
 % Support both the length of the filter divided by the resolution
@@ -90,6 +90,6 @@ for m = 1:5
     set(findall(gcf,'type','text'),'fontSize',25) 
     fig = gcf;
     fig.PaperPositionMode = 'auto';
-    filename = ['ex1_2_' num2str(m-1)];
+    filename = ['pictures/ex1_2_' num2str(m-1)];
     print(filename,'-depsc','-r0');
 end
