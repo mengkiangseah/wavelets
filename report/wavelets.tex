@@ -102,7 +102,7 @@
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-From the question sheet itself \cite{question}, it states that to reproduce polynomials of degree $N$, a scaling function producing wavelets with $N+1$ vanishing moments is needed. Thus, to reproduce polynomials of maximum degree 3, then the Daubechie scaling function of order 4 is needed (\mcode{'db4'}). The $\varphi({t})$ output from the \mcode{wavefun} function is graphed in Figure \ref{fig:e1_1}.
+From the question sheet itself \cite{question}, it states that to reproduce polynomials of degree $N$, a scaling function producing wavelets with $N+1$ vanishing moments is needed. Thus, to reproduce polynomials of maximum degree 3, then the Daubechies scaling function of order 4 is needed (\mcode{'db4'}). The $\varphi({t})$ output from the \mcode{wavefun} function is graphed in Figure \ref{fig:e1_1}.
 
 \begin{figure}[!ht]
     \centering
@@ -111,7 +111,7 @@ From the question sheet itself \cite{question}, it states that to reproduce poly
     \label{fig:e1_1}
 \end{figure}
 
-To compute the coefficients, the Equation \ref{eq:coefficient} is used \cite{question}. However, the function \mcode{wavefun} only has returned $\varphi(t)$. The trick is knowing that Daubechie filters are orthogonal, meaning that for their case, $\varphi(t)$ can be used as $\tilde{\varphi}(t)$. Taking the dot product gives the coefficient. However, from Equation \ref{eq:constant} from Page 68 of the notes \cite{notes}, the coefficients must be normalised, by dividing by $T$.
+To compute the coefficients, the Equation \ref{eq:coefficient} is used \cite{question}. However, the function \mcode{wavefun} only has returned $\varphi(t)$. The trick is knowing that Daubechies filters are orthogonal, meaning that for their case, $\varphi(t)$ can be used as $\tilde{\varphi}(t)$. Taking the dot product gives the coefficient. However, from Equation \ref{eq:constant} from Page 68 of the notes \cite{notes}, the coefficients must be normalised, by dividing by $T$.
 
 \begin{align}
     c_{m,n} &= \langle t^m, \tilde{\varphi}(t - n)\rangle\label{eq:coefficient}\\
@@ -155,7 +155,7 @@ At first glance, it would seem that the reconstruction works even up to $m=4$ sp
         \label{fig:ex1_2_4}
     \end{subfigure}
 
-    \caption{Reconstruction of signals of various orders with a Daubechie sampling kernel of order 4.}
+    \caption{Reconstruction of signals of various orders with a Daubechies sampling kernel of order 4.}
     \label{fig:ex1_2}
 \end{figure}
 
@@ -169,10 +169,6 @@ At first glance, it would seem that the reconstruction works even up to $m=4$ sp
     \caption{Absolute value of the reconstruction error.}
     \label{tbl:ex1}
 \end{table}
-
-
-\mychapter{2}{Exercise 2}
-Something.
 
 \mychapter{3}{Exercise 3}
 Following exactly the equations set up in the question sheet \cite{question}, the function \mcode{annihilatingFilter} was written. This was then applied to the \mcode{tau} variable obtained from the \texttt{tau.mat} file given to us. The results are as found in Table \ref{tbl:ex3_1}. The $h[n]$ values are found in Table \ref{tbl:ex3_2}.
@@ -216,7 +212,7 @@ First, the Dirac stream was created. The value of $K=2$ means that there are two
     \label{tbl:ex4_1}
 \end{table}
 
-Then, the signal $x(t)$ was sampled using the same 4th Order Daubechie function as Exercise 1. This is because the notes \cite{notes} on Page 70 state that the $\varphi(t)$ used must be able to reproduce polynomials of maximum degree $N \geq 2K -1$. For $K=2$, this means $N \geq 3$, exactly as Exercise 1. This produced the 26-coefficient vector (as the support of the kernel $L = 7$).
+Then, the signal $x(t)$ was sampled using the same 4th Order Daubechies function as Exercise 1. This is because the notes \cite{notes} on Page 70 state that the $\varphi(t)$ used must be able to reproduce polynomials of maximum degree $N \geq 2K -1$. For $K=2$, this means $N \geq 3$, exactly as Exercise 1. This produced the 26-coefficient vector (as the support of the kernel $L = 7$).
 \\\\
 The coefficients from Exercise 1 were 4 sets of 26 coefficients, corresponding to the orders $m \in [0;3]$. The dot product between each order's coefficients and the sampled coefficients was computed. The resulting values (4) created the $s[m]$ values.
 \\\\
@@ -278,9 +274,9 @@ Applying the same method as used in Exercise 4, the sampled signal can be analys
 \end{figure}
 
 \mychapter{6}{Exercise 6}
-The function \mcode{daubechieMoments} was written to take in a signal, and an $N$ value, before returning the moments of $s[m]$ where $m\in[0;N-1]$. It does this by first generating a Daubechie function, creating the various $t^m$ values, and obtaining the coefficients through the sampling kernel with shifts. Then, it samples the signal using that same sampling kernel with various shifts. Those samples and the coefficients are combined to form the various moments. This follows exactly the same procedure as in previous exercises.
+The function \mcode{daubechieMoments} was written to take in a signal, and an $N$ value, before returning the moments of $s[m]$ where $m\in[0;N-1]$. It does this by first generating a Daubechies function, creating the various $t^m$ values, and obtaining the coefficients through the sampling kernel with shifts. Then, it samples the signal using that same sampling kernel with various shifts. Those samples and the coefficients are combined to form the various moments. This follows exactly the same procedure as in previous exercises.
 \\\\
-The function was created to streamline the generation process of the data with varying $N$ and noise variance. Knowing that $N > 2K$ from the question sheet \cite{question}, and knowing that $K =2$, this means that $N > 4$. Hence, $N \in [5;8]$ was chosen. After the moment was recorded, noise was added to it. 5 different levels of noise were added, and each result was saved. The variances chosen were $\sigma^2 \in {0.001, 0.01, 0.1, 1, 10}$.
+The function was created to streamline the generation process of the data with varying $N$ and noise variance. Knowing that $N > 2K$ from the question sheet \cite{question}, and knowing that $K =2$, this means that $N > 4$. Hence, $N \in [5;8]$ was chosen. After the moment was recorded, noise was added to it. 5 different levels of noise were added, and each result was saved. The variances chosen were $\sigma^2 \in \{0.001, 0.01, 0.1, 1, 10\}$.
 \\\\
 While reproducing all the coefficients and signals and various outputs are not so interesting, Figure \ref{fig:ex6} shows one picture of the kernel, and the various moments with noise. This is for $N = 5$. To save space, the rest can be found in the Appendix.
 
@@ -300,7 +296,7 @@ There were 4 different $N$ values explored. In addition, the moment for each one
 \\\\
 There are a number of observations here. For the normal annihilation filter, the result was always two Diracs detected. However, with added noise, the time position started to stray from the correct value. Additionally, there was also a noticeable decrease in the amplitude detected. This is expected, as the error from the noise must manifest itself in some way. What is interesting is that increasing $N$ did not seem to improve the performance directly, and appeared to cause attenuation to the later Dirac.
 \\\\
-As for the TLS results, it seemed more resistant to noise, until $\sigma^2 = 10$, where an entire Dirac was lost, and the single one was not in the right place, nor the right amplitude. Increasing $N$ meant greater attenuation, although that did allow the second Dirac to be detected at higher noise levels, despite the wrong location and amplitude. Adding the Cadzow improvement did not seem to do much, but it was only iterated through twice. Due to time and space constraints, this effect was not investigated, but could offer an avenue for further exploration.
+As for the TLS results, it seemed more resistant to noise, until $\sigma^2 = 10$, where an entire Dirac was lost, and the single one was neither in the right place, nor at the right amplitude. Increasing $N$ meant greater attenuation, although that did allow the second Dirac to be detected at higher noise levels, despite the wrong location and amplitude. Adding the Cadzow improvement did not seem to do much, but it was only iterated through twice. Due to time and space constraints, this effect was not investigated, but could offer an avenue for further exploration.
 
 \begin{figure}[!ht]
     \captionsetup[subfigure]{position=b}
@@ -353,7 +349,7 @@ There are a number of things to take note here which help understand the informa
     m_{p,q} &= \sum_{m} \sum_{n} c^{p, q}_{m, n} S_{m,n} \label{eq:m}
 \end{align}
 
-To calculate the barycenters, $(\bar{x},\bar{y})$, only $m_{1,0}$, $m_{0,1}$, and $m_{0,0}$ are needed. From Equation \ref{eq:m}, $m_{m,n}$ is simply the element wise multiplication of all the coefficients with all of the camera outputs, summed across both dimensions. Thus, the barycenters are calculated for each picture, and the resultant $(dx_i, dy_i)$ are easily found to input into the fusion function.
+To calculate the barycenters, $(\bar{x},\bar{y})$, only $m_{1,0}$, $m_{0,1}$, and $m_{0,0}$ are needed. From Equation \ref{eq:m}, $m_{m,n}$ is simply the element-wise multiplication of all the coefficients with all of the camera outputs, summed across both dimensions. Thus, the barycenters are calculated for each picture, and the resultant $(dx_i, dy_i)$ are easily found to input into the fusion function.
 \\\\
 An example of an output is shown in Figure \ref{fig:ex8_30}, showing a low-resolution and a super-resolved picture side by side. The difference is clearly visible, and the PSNR is given as 24.26. However, when taking the $S^{(i)}_{m,n}$ values, noise was removed as anything below a certain limit was set to 0, and this affects the output PSNR. Figure \ref{fig:ex8_2} shows the relationship between the noise threshold and the resultant PSNR. The peak value is at a threshold of 0.29 and a maximum PSNR of 24.4677. Figure \ref{fig:ex8_29} shows this.
 
@@ -390,10 +386,6 @@ An example of an output is shown in Figure \ref{fig:ex8_30}, showing a low-resol
 \renewcommand\thesection{\Alph{section}}
 \section{Exercise 1 Code}
 \lstinputlisting{../ex1.m}
-\newpage
-
-\section{Exercise 2 Code}
-\lstinputlisting{../ex2.m}
 \newpage
 
 \section{Exercise 3 Code}
@@ -443,6 +435,10 @@ An example of an output is shown in Figure \ref{fig:ex8_30}, showing a low-resol
 \end{figure}
 
 \section{Exercise 7 Code and Plots}
+\subsection{Original Dirac Function}
+\lstinputlisting{../originalDirac.m}
+\newpage
+
 \subsection{Annihilation Function with TLS}
 \lstinputlisting{../annihilatingFilterTLS.m}
 \newpage
@@ -942,14 +938,15 @@ An example of an output is shown in Figure \ref{fig:ex8_30}, showing a low-resol
 \end{figure}
 
 \newpage
+
 \section{Exercise 8 Code}
 Note:ImageFusion was modified, but only to deal with the \mcode{edgetaper} bug. Also, \mcode{Main_SR} was too, but only to pass on the limit variable to the \mcode{ImageRegistration}. \mcode{ex8.m} contains some testing scripts for the optimum SNR.
+
 \subsection{ImageRegistration.m}
 \lstinputlisting{../ImageRegistration.m}
 \newpage
 
 \subsection{Actual Script}
 \lstinputlisting{../ex8.m}
-
 
 \end{document}
