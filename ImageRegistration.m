@@ -1,4 +1,4 @@
-function [Tx_RGB Ty_RGB]= ImageRegistration
+function [Tx_RGB, Ty_RGB]= ImageRegistration
 % *************************************************************************
 % Wavelets and Applications Course - Dr. P.L. Dragotti
 % MATLAB mini-project 'Sampling Signals with Finite Rate of Innovation'
