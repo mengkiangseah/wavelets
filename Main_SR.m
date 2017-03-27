@@ -1,4 +1,4 @@
-function [SR_image] = Main_SR
+function [SR_image, PSNR] = Main_SR(limit)
 % *************************************************************************
 % Wavelets and Applications Course - Dr. P.L. Dragotti
 % MATLAB mini-project 'Sampling Signals with Finite Rate of Innovation'
@@ -19,7 +19,7 @@ function [SR_image] = Main_SR
 % *************************************************************************
 
 % Register images
-[Tx_RGB, Ty_RGB]= ImageRegistration;
+[Tx_RGB, Ty_RGB]= ImageRegistration(limit);
 
 % Compute super-resolved image
-[SR_image]= ImageFusion(Tx_RGB, Ty_RGB);
+[SR_image, PSNR]= ImageFusion(Tx_RGB, Ty_RGB);

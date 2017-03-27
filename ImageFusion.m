@@ -1,4 +1,4 @@
-function [SR_color]= ImageFusion(Tx_RGB, Ty_RGB)
+function [SR_color, PSNR]= ImageFusion(Tx_RGB, Ty_RGB)
 % *************************************************************************
 % Wavelets and Applications Course - Dr. P.L. Dragotti
 % MATLAB mini-project 'Sampling Signals with Finite Rate of Innovation'
@@ -72,6 +72,8 @@ for layer = 1:3,
     DataImage(find(isnan(DataImage)==1)) = 0;
         
     % Restore with Wiener filter
+    
+    Spline2D(Spline2D == 0) = eps;
     DataImage = edgetaper(DataImage,Spline2D);
     SR = deconvwnr(DataImage,Spline2D);
 
@@ -104,10 +106,10 @@ m = max( max(x(:)),max(y(:)) );
 PSNR = 10*log10( m/d );
 
 fprintf('\n--------------------------------')
-fprintf('\n\nINFORMATION:')
-fprintf('\n\nNumber of input images: %g',NbSensors)
-fprintf('\n\nSize of each input image: %g x %g pixels',LR_size,LR_size)
-fprintf('\n\nSize of the super-resolved image: %g x %g pixels',HR_size,HR_size)
+% fprintf('\n\nINFORMATION:')
+% fprintf('\n\nNumber of input images: %g',NbSensors)
+% fprintf('\n\nSize of each input image: %g x %g pixels',LR_size,LR_size)
+% fprintf('\n\nSize of the super-resolved image: %g x %g pixels',HR_size,HR_size)
 fprintf('\n\nPSNR of the super-resolved image: %2.2f dB',PSNR)
 fprintf('\n\n--------------------------------\n\n')
 

@@ -345,28 +345,38 @@ As for the TLS results, it seemed more resistant to noise, until $\sigma^2 = 10$
     \label{fig:ex7_5}
 \end{figure}
 
-
-
 \mychapter{8}{Exercise 8}
-Something.
+There are a number of things to take note here which help understand the information. First, $f_i(x,y)$ is the value of the pixel in the $x$ and $y$ location of the view from the $i$-th camera. However, the lens of the camera means this is put through some sampling kernel, which results in Equation \ref{eq:S}. This need not be calculated because it is exactly the output from the camera, meaning it is the actual values to work with.
 
+\begin{align}
+    S^{(i)}_{m,n} &= \langle f_i (x, y), \varphi(x -m, y - n) \rangle \label{eq:S}\\
+    m_{p,q} &= \sum_{m} \sum_{n} c^{p, q}_{m, n} S_{m,n} \label{eq:m}
+\end{align}
 
-% \[ f_{X}(x) = \left\{
-% 	\begin{array}{l l}
-% 		1 & \quad 0 \leq t \leq 1\\
-% 		0 & \quad \text{otherwise}\\
-% 	\end{array}
-% \right.\]
-%
+To calculate the barycenters, $(\bar{x},\bar{y})$, only $m_{1,0}$, $m_{0,1}$, and $m_{0,0}$ are needed. From Equation \ref{eq:m}, $m_{m,n}$ is simply the element wise multiplication of all the coefficients with all of the camera outputs, summed across both dimensions. Thus, the barycenters are calculated for each picture, and the resultant $(dx_i, dy_i)$ are easily found to input into the fusion function.
+\\\\
+An example of an output is shown in Figure \ref{fig:ex8_30}, showing a low-resolution and a super-resolved picture side by side. The difference is clearly visible, and the PSNR is given as 24.26. However, when taking the $S^{(i)}_{m,n}$ values, noise was removed as anything below a certain limit was set to 0, and this affects the output PSNR. Figure \ref{fig:ex8_2} shows the relationship between the noise threshold and the resultant PSNR. The peak value is at a threshold of 0.29 and a maximum PSNR of 24.4677. Figure \ref{fig:ex8_29} shows this.
 
-% \begin{wrapfigure}{r}{0.4\textwidth}
-%       \begin{tabular}{|l|l|}
-%         \hline
-%         \textbf{Sample Mean ($\hat{m}$)} & 0.4982\\ \hline
-%         \textbf{Sample Standard Deviation ($\hat{\sigma}$)} & 0.2862 \\ \hline
-%     \end{tabular}
-% \end{wrapfigure}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{../pictures/ex8_30.eps}
+    \caption{Example super-resolved picture with threshold at 0.30.}
+    \label{fig:ex8_30}
+\end{figure}
 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{../pictures/ex8_2.eps}
+    \caption{Plot of PSNR vs. Noise Threshold.}
+    \label{fig:ex8_2}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{../pictures/ex8_29.eps}
+    \caption{Output with Noise Threshold at 0.29, maximum PSNR.}
+    \label{fig:ex8_29}
+\end{figure}
 
 \newpage
 \mychapter{9}{References}
@@ -933,6 +943,13 @@ Something.
 
 \newpage
 \section{Exercise 8 Code}
+Note:ImageFusion was modified, but only to deal with the \mcode{edgetaper} bug. Also, \mcode{Main_SR} was too, but only to pass on the limit variable to the \mcode{ImageRegistration}. \mcode{ex8.m} contains some testing scripts for the optimum SNR.
+\subsection{ImageRegistration.m}
+\lstinputlisting{../ImageRegistration.m}
+\newpage
+
+\subsection{Actual Script}
+\lstinputlisting{../ex8.m}
 
 
 \end{document}
