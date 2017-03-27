@@ -93,5 +93,3 @@ for m = 1:5
     filename = ['ex1_2_' num2str(m-1)];
     print(filename,'-depsc','-r0');
 end
-
-close all;

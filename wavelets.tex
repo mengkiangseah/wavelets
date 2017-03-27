@@ -23,9 +23,9 @@
 \usepackage{wrapfig}
 \usepackage{url}
 \usepackage{etoolbox}
-\makeatletter
-\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
-\makeatother
+% \makeatletter
+% \patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
+% \makeatother
 
 %Stuff I have added
 
@@ -99,14 +99,100 @@
 \tableofcontents
 \newpage
 
-\mychapter{1}{1. Random Signals \& Stochastic Processes}
+\mychapter{1}{Exercise 1}
+
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-\section{Statistical Estimation}\label{sec:oneone}
+From the question sheet itself \cite{question}, it states that to reproduce polynomials of degree $N$, a scaling function producing wavelets with $N+1$ vanishing moments is needed. Thus, to reproduce polynomials of maximum degree 3, then the Daubechie scaling function of order 4 is needed (\mcode{'db4'}). The $\varphi({t})$ output from the \mcode{wavefun} function is graphed in Figure \ref{fig:e1_1}.
 
-\subsection{Uniform Random Variable}\label{sec:urv}
-The uniform random variable (RV) is $X \sim U(0, 1)$, and has a probability density function (PDF):
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{ex1_1}
+    \caption{Graph of $\varphi({t})$ from a sampling .}
+    \label{fig:e1_1}
+\end{figure}
+
+To compute the coefficients, the Equation \ref{eq:coefficient} is used \cite{question}. However, the function \mcode{wavefun} only has returned $\varphi(t)$. The trick is knowing that Daubechie filters are orthogonal, meaning that for their case, $\varphi(t)$ can be used as $\tilde{\varphi}(t)$. Taking the dot product gives the coefficient. However, from Equation \ref{eq:constant} from Page 68 of the notes \cite{notes}, the coefficients must be normalised, by dividing by $T$.
+
+\begin{align}
+    c_{m,n} &= \langle t^m, \tilde{\varphi}(t - n)\rangle\label{eq:coefficient}\\
+    c_{m,n} &= \frac{1}{T} \int_{-\infty}^{\infty} t^m \tilde{\varphi} \left( \frac{t}{T} -n \right) \,dt \label{eq:constant}
+\end{align}
+
+Thus, each shifted kernel is multiplied by the signal and the result divided by 64, and stored. To reconstruct the signal, the coefficient is multiplied by the shifted kernel and summed. This was done for signals ranging from order $m \in [0; 4]$. The results are shown in Figure \ref{fig:ex1_2}. This shows the original signal, the reconstructed signal, and the shifted kernels that were summed to recreate the signal.
+\\\\
+At first glance, it would seem that the reconstruction works even up to $m=4$ specifically when looking in the middle of the signal, such as $t \in [7; 22]$. To investigate this further, the error can be calculated by summing the absolute value of the difference between the reconstructed signals in the region where they seem to be aligned. The results are in Table \ref{tbl:ex1}, where the error can be seen to be much greater for $m=4$.
+
+\begin{figure}[!ht]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{ex1_2_0}
+        \caption{Signal of Order 0.}
+        \label{fig:ex1_2_0}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{ex1_2_1}
+        \caption{Signal of Order 1.}
+        \label{fig:ex1_2_1}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{ex1_2_2}
+        \caption{Signal of Order 2.}
+        \label{fig:ex1_2_2}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{ex1_2_3}
+        \caption{Signal of Order 3.}
+        \label{fig:ex1_2_3}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.75\textwidth}
+        \includegraphics[width=\textwidth]{ex1_2_4}
+        \caption{Signal of Order 4.}
+        \label{fig:ex1_2_4}
+    \end{subfigure}
+
+    \caption{Reconstruction of signals of various orders with a Daubechie sampling kernel of order 4.}
+    \label{fig:ex1_2}
+\end{figure}
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{|c|r|r|r|r|r|}
+\hline
+$m$     & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4}\\ \hline
+Error   & 0.2184     & 0.0048     & 0.0050     & 0.0255     & 233.5417\\ \hline
+\end{tabular}
+\caption{Absolute value of the reconstruction error.}
+\label{tbl:ex1}
+\end{table}
+
+
+\mychapter{2}{Exercise 2}
+Something.
+\mychapter{3}{Exercise 3}
+Something.
+
+\mychapter{4}{Exercise 4}
+Something.
+
+\mychapter{5}{Exercise 5}
+Something.
+
+\mychapter{6}{Exercise 6}
+Something.
+
+\mychapter{7}{Exercise 7}
+Something.
+
+\mychapter{8}{Exercise 8}
+Something.
+
 
 \[ f_{X}(x) = \left\{
 	\begin{array}{l l}
@@ -114,8 +200,6 @@ The uniform random variable (RV) is $X \sim U(0, 1)$, and has a probability dens
 		0 & \quad \text{otherwise}\\
 	\end{array}
 \right.\]
-
-The expected value of $X$, or \textit{theoretical mean} ($m$) and the standard deviation ($\sigma$) are given by Equation \ref{eq:rvunimu} and \ref{eq:rvunisigma} respectively \cite{IEEEexample:shellCTANpage}.
 
 \resizebox{\textwidth}{!}{%
   \begin{tabular}{ lll }
@@ -156,53 +240,18 @@ The expected value of $X$, or \textit{theoretical mean} ($m$) and the standard d
 Using the \mcode{rand}.
 
 \newpage
-\mychapter{7}{7. References}
+\mychapter{9}{References}
 \begingroup
    \def\chapter*#1{}
 \bibliographystyle{biblio}
 \bibliography{wavelets}
 \endgroup
 
-% \begin{figure}[H]
-% 	\captionsetup[subfigure]{position=b}
-%         \centering
-%         \begin{subfigure}{0.8\textwidth}
-%                 \includegraphics[width=\textwidth]{a1_x1_q123mean.eps}
-%                 \caption{Graph of $\hat{m}$ values.}
-%                 \label{fig:a1_x1_q123mean}
-%         \end{subfigure}
-%         \\
-%         \begin{subfigure}{0.8\textwidth}
-%                 \includegraphics[width=\textwidth]{a1_x1_q123std.eps}
-%                 \caption{Graph of $\hat{\sigma}$ values.}
-%                 \label{fig:a1_x1_q123std}
-%         \end{subfigure}
-% 	\caption{$\hat{m}$ and $\hat{\sigma}$ across 10 realisations of 1000 samples. }
-% 	\label{fig:a1_x1_q123}
-% \end{figure}
-%
-% \begin{table}[h]
-% \centering
-% \resizebox{\textwidth}{!}{%
-% \begin{tabular}{|c|r|r|r|r|r|r|r|r|r|r|}
-% \hline
-% \textbf{Realisation} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8}  & \textbf{9} & \textbf{10} \\ \hline
-% $\hat{m}$                           & 0.5040    & 0.5128    & 0.5113     & 0.4873    & 0.4902    & 0.5138    & 0.5072    & 0.49203     & 0.5028     & 0.5048      \\ \hline
-% $\hat{\sigma}$                          & 0.2864    & 0.2859    & 0.2917    & 0.2880    & 0.2820    & 0.2962     & 0.2887    & 0.2892     & 0.2928    & 0.2913     \\ \hline
-% $B_m$                          & -0.0040 & -0.0128  & -0.0113  & 0.0127   & 0.0098  & -0.0138   & -0.0072 & 0.0080   & -0.0028 & -0.0048  \\ \hline
-% $B_\sigma$                          & 0.0023   & 0.0028  & -0.0030 & 0.0007 & 0.0067  & -0.0075 & 0.0001 & -0.0005 & -0.0041 & -0.0026  \\ \hline
-% \end{tabular}
-% }
-% \caption{Sample mean and standard deviation, with their biases from 10 realisations of 1000 samples each.}
-% \label{tab:a1_x1_q123}
-% \end{table}
-%
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.85\textwidth]{a1_x1_q4a.eps}
-%     \caption{Histogram of $x$ values, with theoretical PDF superimposed.}
-%     \label{fig:a1_x1_q4a}
-% \end{figure}
+\mychapter{10}{Appendix}
+\section*{Exercise 1}
+\lstinputlisting{ex1.m}
+
+
 
 % \lstinputlisting{pgm.m}
 
